@@ -6,6 +6,7 @@ import Draggable from "react-draggable";
 
 const App = () => {
   const [text, setText] = useState("Add text here");
+  const [fontSize, setFontSize] = useState(16);
   const [imageURL, setImageURL] = useState("");
   const [imageURL1, setImageURL1] = useState("");
 
@@ -31,7 +32,8 @@ const App = () => {
             style={{
               position: "absolute",
               zIndex: 2,
-              cursor: "all-scroll"
+              cursor: "all-scroll",
+              fontSize: `${fontSize}px`
             }}
           >
             {text}
@@ -90,6 +92,15 @@ const App = () => {
       <div style={{ marginTop: "20px" }}>
         <label>text: </label>
         <input onChange={e => setText(e.target.value)} type="text" />
+
+        <div>
+          <label>font size: </label>
+          <input
+            onChange={e => setFontSize(+e.target.value)}
+            type="number"
+            value={fontSize}
+          />
+        </div>
       </div>
       <div>
         <label>Background Image: </label>
