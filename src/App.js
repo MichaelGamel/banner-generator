@@ -3,12 +3,14 @@ import "./App.css";
 import { toJpeg } from "html-to-image";
 import * as download from "downloadjs";
 import Draggable from "react-draggable";
+import FontPicker from "font-picker-react";
 
 const App = () => {
   const [text, setText] = useState("Add text here");
   const [fontSize, setFontSize] = useState(16);
   const [imageURL, setImageURL] = useState("");
   const [imageURL1, setImageURL1] = useState("");
+  const [activeFontFamily, setActiveFontFamily] = useState("Open Sans");
 
   const downloadHandler = () => {
     toJpeg(document.getElementById("my-node")).then(function(dataUrl) {
@@ -29,6 +31,7 @@ const App = () => {
       <div style={{ position: "relative" }} id="my-node" className="App">
         <Draggable bounds="parent" axis="both">
           <span
+            className="apply-font"
             style={{
               position: "absolute",
               zIndex: 2,
@@ -90,9 +93,10 @@ const App = () => {
         </Draggable>
       </div>
       <div style={{ marginTop: "20px" }}>
+        <hr />
         <label>text: </label>
         <input onChange={e => setText(e.target.value)} type="text" />
-
+        <hr />
         <div>
           <label>font size: </label>
           <input
@@ -101,6 +105,14 @@ const App = () => {
             value={fontSize}
           />
         </div>
+        <hr />
+        <label>font format: </label>
+        <FontPicker
+          apiKey="AIzaSyBVGC2QBuDmIPB9ew2tA6z82I7Wq2FsUhc"
+          activeFontFamily={activeFontFamily}
+          onChange={nextFont => setActiveFontFamily(nextFont.family)}
+        />
+        <hr />
       </div>
       <div>
         <label>Background Image: </label>
