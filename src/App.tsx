@@ -1,41 +1,47 @@
-import React, { useState } from "react";
-import "./App.css";
-import { toJpeg } from "html-to-image";
-import * as download from "downloadjs";
-import Draggable from "react-draggable";
-import FontPicker from "font-picker-react";
+import React, { useState, useRef } from 'react';
+import './App.css';
+import { toJpeg } from 'html-to-image';
+import download from 'downloadjs';
+import Draggable from 'react-draggable';
+import FontPicker from 'font-picker-react';
 
 const App = () => {
-  const [text, setText] = useState("Add text here");
+  const [text, setText] = useState('Add text here');
   const [fontSize, setFontSize] = useState(16);
-  const [imageURL, setImageURL] = useState("");
-  const [imageURL1, setImageURL1] = useState("");
-  const [activeFontFamily, setActiveFontFamily] = useState("Open Sans");
+  const [imageURL, setImageURL] = useState('');
+  const [imageURL1, setImageURL1] = useState('');
+  const [activeFontFamily, setActiveFontFamily] = useState('Open Sans');
+  const myRef: any = useRef();
 
   const downloadHandler = () => {
-    toJpeg(document.getElementById("my-node")).then(function(dataUrl) {
-      download(dataUrl, "my-node.png");
+    toJpeg(myRef.current).then((dataUrl: any) => {
+      download(dataUrl, 'my-node.png');
     });
   };
 
-  const upload = e => {
+  const upload = (e: any) => {
     setImageURL(URL.createObjectURL(e.target.files[0]));
   };
 
-  const upload1 = e => {
+  const upload1 = (e: any) => {
     setImageURL1(URL.createObjectURL(e.target.files[0]));
   };
 
   return (
     <>
-      <div style={{ position: "relative" }} id="my-node" className="App">
-        <Draggable bounds="parent" axis="both">
+      <div
+        style={{ position: 'relative' }}
+        ref={myRef}
+        id='my-node'
+        className='App'
+      >
+        <Draggable bounds='parent' axis='both'>
           <span
-            className="apply-font"
+            className='apply-font'
             style={{
-              position: "absolute",
+              position: 'absolute',
               zIndex: 2,
-              cursor: "all-scroll",
+              cursor: 'all-scroll',
               fontSize: `${fontSize}px`
             }}
           >
@@ -44,11 +50,11 @@ const App = () => {
         </Draggable>
         {imageURL && (
           <img
-            alt=""
+            alt=''
             style={{
-              width: "100%",
-              height: "100%",
-              position: "absolute",
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
               left: 0,
               zIndex: 1
             }}
@@ -58,57 +64,57 @@ const App = () => {
 
         <Draggable
           bounds={{ left: 0, top: 0, right: 600, bottom: 200 }}
-          axis="both"
+          axis='both'
         >
           <div
             style={{
-              position: "absolute",
+              position: 'absolute',
               left: 0,
-              display: "inline-block",
+              display: 'inline-block',
               zIndex: 2
             }}
           >
             <img
-              alt=""
+              alt=''
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: 0,
                 left: 0,
-                width: "100px",
-                height: "100px"
+                width: '100px',
+                height: '100px'
               }}
               src={imageURL1}
             />
             <div
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: 0,
                 left: 0,
-                backgroundColor: "transparent",
-                width: "100px",
-                height: "100px"
+                backgroundColor: 'transparent',
+                width: '100px',
+                height: '100px'
               }}
             ></div>
           </div>
         </Draggable>
       </div>
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: '20px' }}>
         <hr />
         <label>text: </label>
-        <input onChange={e => setText(e.target.value)} type="text" />
+        <input onChange={e => setText(e.target.value)} type='text' />
         <hr />
         <div>
           <label>font size: </label>
           <input
             onChange={e => setFontSize(+e.target.value)}
-            type="number"
+            type='number'
             value={fontSize}
           />
         </div>
         <hr />
         <label>font format: </label>
         <FontPicker
-          apiKey="AIzaSyBVGC2QBuDmIPB9ew2tA6z82I7Wq2FsUhc"
+          apiKey='AIzaSyBVGC2QBuDmIPB9ew2tA6z82I7Wq2FsUhc'
           activeFontFamily={activeFontFamily}
           onChange={nextFont => setActiveFontFamily(nextFont.family)}
         />
@@ -116,11 +122,11 @@ const App = () => {
       </div>
       <div>
         <label>Background Image: </label>
-        <input onChange={upload} type="file" />
+        <input onChange={upload} type='file' />
       </div>
       <div>
         <label>Draggable Image: </label>
-        <input onChange={upload1} type="file" />
+        <input onChange={upload1} type='file' />
       </div>
       <button onClick={downloadHandler}>Download</button>
     </>
